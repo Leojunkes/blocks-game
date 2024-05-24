@@ -1,7 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +10,9 @@ import '../style/palette.dart';
 import '../style/responsive_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
-  const MainMenuScreen({super.key});
+  final String? name;
+
+  const MainMenuScreen({super.key, this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +24,31 @@ class MainMenuScreen extends StatelessWidget {
       backgroundColor: palette.backgroundMain,
       body: ResponsiveScreen(
         squarishMainArea: Center(
-          child: Transform.rotate(
-            angle: -0.1,
-            child: const Text(
-              'Teste Cognitivo Blocks!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 55,
-                height: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Transform.rotate(
+                angle: -0.1,
+                child: const Text(
+                  'Teste Cognitivo Blocks!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    fontSize: 55,
+                    height: 1,
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              Text(
+                name != null ? 'Bem-vindo, $name' : 'Bem-vindo, Visitante',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 75, 73, 73), // Change to a contrasting color
+                ),
+              ),
+            ],
           ),
         ),
         rectangularMenuArea: Column(
@@ -45,13 +57,13 @@ class MainMenuScreen extends StatelessWidget {
             MyButton(
               onPressed: () {
                 audioController.playSfx(SfxType.buttonTap);
-                GoRouter.of(context).go('/play');
+                GoRouter.of(context).go('/main_menu/play');
               },
               child: const Text('Play'),
             ),
             _gap,
             MyButton(
-              onPressed: () => GoRouter.of(context).push('/settings'),
+              onPressed: () => GoRouter.of(context).push('/main_menu/settings'),
               child: const Text('Settings'),
             ),
             _gap,
