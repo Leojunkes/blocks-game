@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class Moreblocks extends StatefulWidget {
-  const Moreblocks({Key? key}) : super(key: key);
+  final List<String> images;
+
+  const Moreblocks({Key? key, required this.images}) : super(key: key);
 
   @override
   _MoreblocksState createState() => _MoreblocksState();
 }
 
 class _MoreblocksState extends State<Moreblocks> {
-  final List<String> _imageOptions = [
-    'images/cubo75Bc.png',
-    'images/cubo75Pt.png',
-    'images/cuboBranco.png',
-    'images/cubopreto.png',
-  ];
-
   late List<String> _imagePaths;
 
   @override
@@ -26,13 +21,13 @@ class _MoreblocksState extends State<Moreblocks> {
 
   void _initializeImages() {
     final random = Random();
-    _imagePaths = List.generate(4, (_) => _imageOptions[random.nextInt(_imageOptions.length)]);
+    _imagePaths = List.generate(4, (_) => widget.images[random.nextInt(widget.images.length)]);
   }
 
   void _changeImage(int index) {
     final random = Random();
     setState(() {
-      List<String> availableOptions = List.from(_imageOptions)..remove(_imagePaths[index]);
+      List<String> availableOptions = List.from(widget.images)..remove(_imagePaths[index]);
       _imagePaths[index] = availableOptions[random.nextInt(availableOptions.length)];
     });
   }
@@ -81,6 +76,13 @@ class GameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> imageOptions = [
+      'images/cubo75Bc.png',
+      'images/cubo75Pt.png',
+      'images/cuboBranco.png',
+      'images/cubopreto.png',
+    ];
+
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Center(
@@ -93,8 +95,8 @@ class GameWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Moreblocks(),
+                  children: [
+                    Moreblocks(images: imageOptions),
                   ],
                 ),
               ),
