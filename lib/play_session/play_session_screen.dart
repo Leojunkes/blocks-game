@@ -1,7 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -48,7 +44,6 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
   @override
   void initState() {
     super.initState();
-
     _startOfPlay = DateTime.now();
   }
 
@@ -73,9 +68,19 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
         ignoring: _duringCelebration,
         child: Scaffold(
           backgroundColor: palette.backgroundPlaySession,
-          // The stack is how you layer widgets on top of each other.
-          // Here, it is used to overlay the winning confetti animation on top
-          // of the game.
+          appBar: AppBar(
+             backgroundColor:const Color(0xFFffebb5),
+            title: const Text('Game Title'),
+            actions: [
+              IconButton(
+                icon: Image.asset(
+                  'assets/images/settings.png',
+                  semanticLabel: 'Settings',
+                ),
+                onPressed: () => GoRouter.of(context).push('/main_menu/settings'),
+              ),
+            ],
+          ),
           body: Stack(
             children: [
               // This is the main layout of the play session screen,
@@ -84,19 +89,9 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkResponse(
-                      onTap: () => GoRouter.of(context).push('/settings'),
-                      child: Image.asset(
-                        'assets/images/settings.png',
-                        semanticLabel: 'Settings',
-                      ),
-                    ),
-                  ),
                   const Spacer(),
                   Expanded(
-                    flex: 3, // Exemplo de proporção: GameWidget ocupa 3 vezes mais espaço do que o BackButton
+                    flex: 8, // Exemplo de proporção: GameWidget ocupa 3 vezes mais espaço do que o BackButton
                     child: GameWidget(),
                   ),
                   const Spacer(),

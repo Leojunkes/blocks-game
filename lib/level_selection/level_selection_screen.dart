@@ -1,7 +1,3 @@
-// Copyright 2022, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +16,44 @@ class LevelSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = context.watch<Palette>();
-    final playerProgress = context.watch<PlayerProgress>();
+    context.watch<PlayerProgress>();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFA2DCC7),
+        title: Row(
+          children: [
+            Image.asset(
+              'images/block-principal.png',
+              height: 40,
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              'Léo',
+              style: TextStyle(fontSize: 20),
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.notifications),
+                ),
+                Card(
+                  color: Colors.green,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      '+licenças',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
       backgroundColor: palette.backgroundLevelSelection,
       body: ResponsiveScreen(
         squarishMainArea: Column(
@@ -31,30 +62,102 @@ class LevelSelectionScreen extends StatelessWidget {
               padding: EdgeInsets.all(16),
               child: Center(
                 child: Text(
-                  'Select level',
-                  style:
-                      TextStyle(fontFamily: 'Permanent Marker', fontSize: 30),
+                  'Tarefas',
+                  style: TextStyle(
+                    fontFamily: 'Permanent Marker',
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 50),
             Expanded(
-              child: ListView(
+              child: GridView.count(
+                crossAxisCount: 2,
                 children: [
                   for (final level in gameLevels)
-                    ListTile(
-                      enabled: playerProgress.highestLevelReached >=
-                          level.number - 1,
+                    GestureDetector(
                       onTap: () {
                         final audioController = context.read<AudioController>();
                         audioController.playSfx(SfxType.buttonTap);
-
-                        GoRouter.of(context)
-                            .go('/play/session/${level.number}');
+                        GoRouter.of(context).go('/main_menu/play/session/${level.number}');
                       },
-                      leading: Text(level.number.toString()),
-                      title: Text('Game Block #${level.number}'),
-                    )
+                      child: Container(
+                        margin: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'images/block-principal.png',
+                              height: 60,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Game Block #${level.number}',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              'Level ${level.number}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  GestureDetector(
+                    onTap: () {
+                      final audioController = context.read<AudioController>();
+                      audioController.playSfx(SfxType.buttonTap);
+                      GoRouter.of(context).go('/play/session/special');
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'images/block-principal.png',
+                            height: 60,
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Special Block',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 5),
+                          const Text(
+                            'Special Level',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -62,7 +165,7 @@ class LevelSelectionScreen extends StatelessWidget {
         ),
         rectangularMenuArea: MyButton(
           onPressed: () {
-            GoRouter.of(context).go('/');
+            GoRouter.of(context).go('/main_menu');
           },
           child: const Text('Back'),
         ),
