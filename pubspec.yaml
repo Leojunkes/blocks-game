@@ -39,6 +39,9 @@ flutter:
     - family: Permanent Marker
       fonts:
         - asset: assets/fonts/Permanent_Marker/PermanentMarker-Regular.ttf
+    - family: Poetsen One
+      fonts:
+        - asset:  assets/fonts/PoetsenOne-Regular.ttf
 
 flutter_launcher_icons:
   android: true

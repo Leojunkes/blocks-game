@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -80,7 +81,8 @@ class LevelSelectionScreen extends StatelessWidget {
                       onTap: () {
                         final audioController = context.read<AudioController>();
                         audioController.playSfx(SfxType.buttonTap);
-                        GoRouter.of(context).go('/main_menu/play/session/${level.number}');
+                        GoRouter.of(context)
+                            .go('/main_menu/play/session/${level.number}');
                       },
                       child: Container(
                         margin: const EdgeInsets.all(8.0),
@@ -105,7 +107,7 @@ class LevelSelectionScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              'Game Block #${level.number}',
+                              'Teste de blocos',
                               style: const TextStyle(fontSize: 18),
                             ),
                             const SizedBox(height: 5),
@@ -113,6 +115,16 @@ class LevelSelectionScreen extends StatelessWidget {
                               'Level ${level.number}',
                               style: const TextStyle(fontSize: 16),
                             ),
+                            SizedBox(
+                              
+                              width: 400,
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  maxLines: 3,
+                                    'Este teste envolve a reprodução de padrões geométricos usando cubos coloridos. É usado para avaliar habilidades de percepção visual, organização espacial e coordenação motora.'),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -121,7 +133,7 @@ class LevelSelectionScreen extends StatelessWidget {
                     onTap: () {
                       final audioController = context.read<AudioController>();
                       audioController.playSfx(SfxType.buttonTap);
-                      GoRouter.of(context).go('/play/session/special');
+                      GoRouter.of(context).go('');
                     },
                     child: Container(
                       margin: const EdgeInsets.all(8.0),

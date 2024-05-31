@@ -24,7 +24,11 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/main_menu',
-      builder: (context, state) => const MainMenuScreen(key: Key('main menu')),
+       builder: (context, state) {
+        final extra = state.extra as Map<String, String>?;
+        final nome = extra?['nome'];
+        return MainMenuScreen(nome: nome, key: Key('main menu'));
+      },
       routes: [
         GoRoute(
           path: 'play',

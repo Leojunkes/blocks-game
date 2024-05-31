@@ -10,7 +10,9 @@ import '../style/palette.dart';
 import '../style/responsive_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
-  const MainMenuScreen({super.key, String? name});
+  final String? nome;
+
+  MainMenuScreen({this.nome, required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,28 @@ class MainMenuScreen extends StatelessWidget {
         squarishMainArea: Center(
           child: Transform.rotate(
             angle: -0.1,
-            child: const Text(
-              'Teste Cognitivo Blocks!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Permanent Marker',
-                fontSize: 55,
-                height: 1,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Teste Visuo Construtivo!",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Poetsen One',
+                    fontSize: 55,
+                    height: 1,
+                  ),
+                ),
+                Text(
+                  "Bem vindo ${nome ?? ''}",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Poetsen One',
+                    fontSize: 48,
+                    height: 1,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -44,6 +60,14 @@ class MainMenuScreen extends StatelessWidget {
                 GoRouter.of(context).go('/main_menu/play');
               },
               child: const Text('Play'),
+            ),
+            _gap,
+            MyButton(
+              onPressed: () {
+                audioController.playSfx(SfxType.buttonTap);
+                GoRouter.of(context).go('');
+              },
+              child: const Text('Cadastrar Paciente'),
             ),
             _gap,
             MyButton(
