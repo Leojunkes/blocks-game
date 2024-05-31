@@ -69,11 +69,15 @@ class MoreblocksState extends State<Moreblocks> {
         _changeImage(index);
       },
       child: Container(
-        padding: EdgeInsets.all(0),
+        width: 95,
+        height: 95,
+        margin: EdgeInsets.zero, // Remove any margin
+        padding: EdgeInsets.zero, // Remove any padding
         child: Image.asset(
           _imagePaths[index],
           width: 95,
           height: 95,
+          fit: BoxFit.cover, // Ensure the image covers the entire container
         ),
       ),
     );

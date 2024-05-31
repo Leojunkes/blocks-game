@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,9 @@ import '../style/responsive_screen.dart';
 import 'levels.dart';
 
 class LevelSelectionScreen extends StatelessWidget {
-  const LevelSelectionScreen({super.key});
+  final String? name;
+
+  LevelSelectionScreen({this.name, required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,9 @@ class LevelSelectionScreen extends StatelessWidget {
               height: 40,
             ),
             const SizedBox(width: 10),
-            const Text(
-              'Léo',
-              style: TextStyle(fontSize: 20),
+            Text(
+              "Bem vindo ${name ?? ''}",
+              style: const TextStyle(fontSize: 20),
             ),
             const Spacer(),
             Row(
@@ -52,6 +53,57 @@ class LevelSelectionScreen extends StatelessWidget {
                 )
               ],
             )
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFFa2dcc7),
+              ),
+              child: Text(
+                
+                'Bateria de testes',
+                style: TextStyle(
+                  color: Color(0xff3c374b),
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                GoRouter.of(context).go('/main_menu');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.dashboard),
+              title: const Text('Dashboard'),
+              onTap: () {
+                GoRouter.of(context).go('');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Pacientes'),
+              onTap: () {
+                GoRouter.of(context).go('');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.task),
+              title: const Text('Atividades'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month),
+              title: const Text('Calendário'),
+              onTap: () {},
+            ),
           ],
         ),
       ),
@@ -106,23 +158,23 @@ class LevelSelectionScreen extends StatelessWidget {
                               height: 60,
                             ),
                             const SizedBox(height: 10),
-                            Text(
+                            const Text(
                               'Teste de blocos',
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18),
                             ),
                             const SizedBox(height: 5),
-                            Text(
-                              'Level ${level.number}',
-                              style: const TextStyle(fontSize: 16),
+                            const Text(
+                              'Level 1',
+                              style: TextStyle(fontSize: 16),
                             ),
-                            SizedBox(
-                              
+                            const SizedBox(
                               width: 400,
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
+                                  'Este teste envolve a reprodução de padrões geométricos usando cubos coloridos. É usado para avaliar habilidades de percepção visual, organização espacial e coordenação motora.',
                                   maxLines: 3,
-                                    'Este teste envolve a reprodução de padrões geométricos usando cubos coloridos. É usado para avaliar habilidades de percepção visual, organização espacial e coordenação motora.'),
+                                ),
                               ),
                             )
                           ],

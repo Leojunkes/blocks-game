@@ -70,7 +70,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
           backgroundColor: palette.backgroundPlaySession,
           appBar: AppBar(
              backgroundColor:const Color(0xFFffebb5),
-            title: const Text('Game Title'),
+            title: const Text('Nível1 4 blocos'),
             actions: [
               IconButton(
                 icon: Image.asset(
@@ -98,7 +98,7 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: MyButton(
-                      onPressed: () => GoRouter.of(context).go('/play'),
+                      onPressed: () => GoRouter.of(context).go('/main_menu/play'),
                       child: const Text('Back'),
                     ),
                   ),
