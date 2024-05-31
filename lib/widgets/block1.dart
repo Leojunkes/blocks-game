@@ -14,6 +14,9 @@ class BlocksState extends State<Blocks> {
     'images/cubo75Pt.png',
     'images/cuboBranco.png',
     'images/cubopreto.png',
+    'images/cuboBranco.png',
+    'images/cubopreto.png',
+    
   ];
 
   late List<String> _imagePaths;
@@ -26,7 +29,7 @@ class BlocksState extends State<Blocks> {
 
   void _initializeImages() {
     final random = Random();
-    _imagePaths = List.generate(4, (_) => _imageOptions[random.nextInt(_imageOptions.length)]);
+    _imagePaths = List.generate(6, (_) => _imageOptions[random.nextInt(_imageOptions.length)]);
   }
 
   List<String> getImagePaths() {

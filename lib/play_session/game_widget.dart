@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,29 @@ class _GameWidgetState extends State<GameWidget> {
   final GlobalKey<BlocksState> _blocksKey = GlobalKey<BlocksState>();
   final GlobalKey<MoreblocksState> _moreblocksKey =
       GlobalKey<MoreblocksState>();
+
+  late Timer _timer;
+  int _secondsElapsed = 0;
+  bool _isTimerRunning = false;
+  bool _isLoading = false; // Flag to track loading state
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_isTimerRunning) {
+        setState(() {
+          _secondsElapsed++;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   Future<bool> compareImages(String path1, String path2) async {
     ByteData data1 = await rootBundle.load(path1);
@@ -41,8 +65,6 @@ class _GameWidgetState extends State<GameWidget> {
 
     return true;
   }
-
-  bool _isLoading = false; // Flag to track loading state
 
   void _compareBlocksImages() async {
     setState(() {
@@ -69,22 +91,40 @@ class _GameWidgetState extends State<GameWidget> {
     });
 
     if (allTrue) {
-      _showCongratulationsAlert();
+      _showCongratulationsAlert(_secondsElapsed);
     } else {
-      _showErrorAlert();
+      _showErrorAlert(_secondsElapsed);
     }
   }
 
-  void _showCongratulationsAlert() {
+  void _showCongratulationsAlert(int secondsElapsed) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Parabéns!'),
-          content: Text('Você acertou!'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Você acertou em $secondsElapsed segundos!'),
+              SizedBox(height: 10),
+              Text('Laudo Técnico:'),
+              Text(
+                'Parabéns! Você concluiu o desafio com sucesso. Sua capacidade de observação e resolução de problemas é excelente. Continue assim!',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                setState(() {
+                  _secondsElapsed = 0;
+                  _isTimerRunning = false;
+                });
+                Navigator.pop(context);
+              },
               child: Text('OK'),
             ),
           ],
@@ -93,16 +133,34 @@ class _GameWidgetState extends State<GameWidget> {
     );
   }
 
-  void _showErrorAlert() {
+  void _showErrorAlert(int secondsElapsed) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Ops!'),
-          content: Text('Você errou! Tente novamente.'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Você errou em $secondsElapsed segundos!'),
+              SizedBox(height: 10),
+              Text('Laudo Técnico:'),
+              Text(
+                'Parece que você cometeu alguns erros ao tentar resolver o desafio. Não desanime! Tente novamente e utilize sua habilidade de observação para encontrar a solução correta.',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                setState(() {
+                  _secondsElapsed = 0;
+                  _isTimerRunning = false;
+                });
+                Navigator.pop(context);
+              },
               child: Text('OK'),
             ),
           ],
@@ -120,7 +178,8 @@ class _GameWidgetState extends State<GameWidget> {
               Text('Estamos trazendo o resultado...'), // Texto informativo
             ],
           )
-        : SizedBox.shrink(); // Retorna um widget vazio se não estiver carregando
+        : SizedBox
+            .shrink(); // Retorna um widget vazio se não estiver carregando
   }
 
   @override
@@ -135,14 +194,34 @@ class _GameWidgetState extends State<GameWidget> {
 
             return Container(
               width: containerWidth,
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               color: const Color(0xffb2b1e5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _buildLoadingIndicator(), // Adiciona o indicador de carregamento e o texto
-                  SizedBox(height: 20), // Espaçamento entre o indicador e os widgets existentes
+                  SizedBox(
+                      height:
+                          20), // Espaçamento entre o indicador e os widgets existentes
+                  MyButton(
+                    onPressed: () {
+                      setState(() {
+                        _secondsElapsed = 0;
+                        _isTimerRunning = true;
+                      });
+                      _timer.cancel();
+                      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+                        if (_isTimerRunning) {
+                          setState(() {
+                            _secondsElapsed++;
+                          });
+                        }
+                      });
+                    },
+                    child: Text('Iniciar'),
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -175,9 +254,17 @@ class _GameWidgetState extends State<GameWidget> {
                     ],
                   ),
                   const SizedBox(height: 20),
+                  Text(
+                    'Tempo decorrido: $_secondsElapsed segundos',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   MyButton(
                     onPressed: _compareBlocksImages,
-                    child: const Text('Compare Images'),
+                    child: const Text('Compare Imagens'),
                   ),
                 ],
               ),
