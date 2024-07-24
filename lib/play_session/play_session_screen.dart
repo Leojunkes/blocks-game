@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart' hide Level;
 import 'package:provider/provider.dart';
@@ -67,9 +68,9 @@ class _PlaySessionScreenState extends State<PlaySessionScreen> {
         // Ignore all input during the celebration animation.
         ignoring: _duringCelebration,
         child: Scaffold(
-          backgroundColor: palette.backgroundPlaySession,
+          backgroundColor:Color.fromARGB(255, 255, 255, 255),
           appBar: AppBar(
-             backgroundColor:const Color(0xFFffebb5),
+             backgroundColor:Color.fromARGB(255, 255, 255, 255),
             title: const Text('Nível1 4 blocos'),
             actions: [
               IconButton(

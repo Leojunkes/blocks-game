@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
@@ -8,7 +7,7 @@ import 'package:basic/widgets/blocksDetects.dart';
 import 'package:basic/style/my_button.dart';
 
 class GameWidget extends StatefulWidget {
-  const GameWidget({Key? key}) : super(key: key);
+  const GameWidget({super.key});
 
   @override
   _GameWidgetState createState() => _GameWidgetState();
@@ -70,7 +69,7 @@ class _GameWidgetState extends State<GameWidget> {
     setState(() {
       _isLoading = true; // Set loading state to true
     });
-
+    _isTimerRunning = false;
     List<String> blockPaths = _blocksKey.currentState!.getImagePaths();
     List<String> moreblockPaths = _moreblocksKey.currentState!.getImagePaths();
 
@@ -172,7 +171,7 @@ class _GameWidgetState extends State<GameWidget> {
   Widget _buildLoadingIndicator() {
     return _isLoading
         ? Column(
-            children: [
+            children: const [
               CircularProgressIndicator(), // Indicador de carregamento
               SizedBox(height: 16), // Espaçamento entre o indicador e o texto
               Text('Estamos trazendo o resultado...'), // Texto informativo
@@ -192,82 +191,91 @@ class _GameWidgetState extends State<GameWidget> {
             double containerWidth = constraints.maxWidth * 0.8;
             double imageSize = containerWidth * 0.4;
 
-            return Container(
-              width: containerWidth,
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              color: const Color(0xffb2b1e5),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _buildLoadingIndicator(), // Adiciona o indicador de carregamento e o texto
-                  SizedBox(
-                      height:
-                          20), // Espaçamento entre o indicador e os widgets existentes
-                  MyButton(
-                    onPressed: () {
-                      setState(() {
-                        _secondsElapsed = 0;
-                        _isTimerRunning = true;
-                      });
-                      _timer.cancel();
-                      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-                        if (_isTimerRunning) {
-                          setState(() {
-                            _secondsElapsed++;
-                          });
-                        }
-                      });
-                    },
-                    child: Text('Iniciar'),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: containerWidth,
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    color: Color.fromARGB(255, 228, 228, 228),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'Reproduza essa imagem:',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          _buildLoadingIndicator(), // Adiciona o indicador de carregamento e o texto
+                          const SizedBox(
+                              height:
+                                  20), // Espaçamento entre o indicador e os widgets existentes
+                          MyButton(
+                            onPressed: () {
+                              setState(() {
+                                _secondsElapsed = 0;
+                                _isTimerRunning = true;
+                              });
+                              _timer.cancel();
+                              _timer =
+                                  Timer.periodic(Duration(seconds: 1), (timer) {
+                                if (_isTimerRunning) {
+                                  setState(() {
+                                    _secondsElapsed++;
+                                  });
+                                }
+                              });
+                            },
+                            child: const Text('Iniciar'),
                           ),
-                          const SizedBox(height: 8),
-                          Container(
-                            padding: const EdgeInsets.only(top: 80.0),
-                            color: Color(0xFF3e3d78),
-                            child: SizedBox(
-                              width: containerWidth * 0.2,
-                              height: containerWidth * 0.18,
-                              child: Blocks(key: _blocksKey),
-                            ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    'Reproduza essa imagem:',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Container(
+                                    padding: const EdgeInsets.only(top: 80.0),
+                                    color: Color.fromARGB(255, 196, 196, 196),
+                                    child: SizedBox(
+                                      width: containerWidth * 0.2,
+                                      height: containerWidth * 0.18,
+                                      child: Blocks(key: _blocksKey),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 8),
+                              SizedBox(
+                                width: imageSize,
+                                child: Moreblocks(key: _moreblocksKey),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      const SizedBox(width: 8),
-                      SizedBox(
-                        width: imageSize,
-                        child: Moreblocks(key: _moreblocksKey),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Tempo decorrido: $_secondsElapsed segundos',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  MyButton(
-                    onPressed: _compareBlocksImages,
-                    child: const Text('Compare Imagens'),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Tempo decorrido: $_secondsElapsed segundos',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+                MyButton(
+                  onPressed: _compareBlocksImages,
+                  child: const Text('Compare Imagens'),
+                ),
+              ],
             );
           },
         ),

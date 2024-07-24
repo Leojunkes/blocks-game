@@ -13,7 +13,7 @@ import 'levels.dart';
 class LevelSelectionScreen extends StatelessWidget {
   final String? name;
 
-  LevelSelectionScreen({this.name, required Key key}) : super(key: key);
+  const LevelSelectionScreen({this.name, required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

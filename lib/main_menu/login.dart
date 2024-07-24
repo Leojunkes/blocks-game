@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text(
                   'Bateria de testes',
-                  style: Theme.of(context).textTheme.headline5,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 SizedBox(height: 20),
                 TextField(

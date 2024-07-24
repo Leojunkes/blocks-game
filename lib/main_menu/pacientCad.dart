@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PatientFormPage extends StatefulWidget {
+  const PatientFormPage({super.key});
+
   @override
   _PatientFormPageState createState() => _PatientFormPageState();
 }

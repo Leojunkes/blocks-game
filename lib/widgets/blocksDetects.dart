@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Moreblocks extends StatefulWidget {
-  const Moreblocks({Key? key}) : super(key: key);
+  const Moreblocks({super.key});
 
   @override
   MoreblocksState createState() => MoreblocksState();

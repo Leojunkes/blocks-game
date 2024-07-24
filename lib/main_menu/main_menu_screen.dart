@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../audio/audio_controller.dart';
-import '../audio/sounds.dart';
 import '../settings/settings.dart';
 import '../style/my_button.dart';
 import '../style/palette.dart';
@@ -13,7 +12,7 @@ import '../style/responsive_screen.dart';
 class MainMenuScreen extends StatelessWidget {
   final String? nome;
 
-  MainMenuScreen({this.nome, required Key key}) : super(key: key);
+  const MainMenuScreen({this.nome, required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class MainMenuScreen extends StatelessWidget {
             child: Opacity(
               opacity: 0.1,
               child: Image.asset(
-                'images/rubiks_cube.png',
+                '/images/rubiks_cube.png',
                 width: 300, // Ajuste o tamanho conforme necessário
               ),
             ),
@@ -66,6 +65,8 @@ class MainMenuScreen extends StatelessWidget {
             rectangularMenuArea: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                
+                
                 MyButton(
                   onPressed: () {
                     Navigator.push(
